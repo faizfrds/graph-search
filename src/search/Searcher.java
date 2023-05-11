@@ -19,8 +19,8 @@ public abstract class Searcher<T> {
 	 * Instantiates a searcher.
 	 * 
 	 * @param searchProblem
-	 *            the search problem for which this searcher will find and
-	 *            validate solutions
+	 *                      the search problem for which this searcher will find and
+	 *                      validate solutions
 	 */
 	public Searcher(SearchProblem<T> searchProblem) {
 		this.searchProblem = searchProblem;
@@ -54,10 +54,32 @@ public abstract class Searcher<T> {
 	 * @param solution
 	 * @return true iff this solution is a valid solution
 	 * @throws NullPointerException
-	 *             if solution is null
+	 *                              if solution is null
 	 */
 	public final boolean isValid(List<T> solution) {
-        // TODO
-        return true;
+		// TODO
+
+		if (solution == null) {
+			throw new NullPointerException();
+		}
+
+		T initialState = searchProblem.getInitialState();
+		if (!solution.get(0).equals(initialState)) {
+			return false;
+		}
+
+		T currentState = initialState;
+		for (T state : solution.subList(1, solution.size())) {
+			if (!searchProblem.getSuccessors(currentState).contains(state)) {
+				return false;
+			}
+			currentState = state;
+		}
+		
+		boolean goal = searchProblem.isGoalState(solution.get(solution.size()-1));
+		if (!goal) return false;
+		
+
+		return true;
 	}
 }
