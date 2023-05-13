@@ -5,6 +5,9 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
+import javax.lang.model.util.ElementScanner14;
+import javax.management.RuntimeErrorException;
+
 
 /**
  * An implementation of a Searcher that performs an iterative search,
@@ -20,62 +23,64 @@ public class QueueBasedBreadthFirstSearcher<T> extends Searcher<T> {
 
 	@Override
 	public List<T> solve() {
-        		// TODO
+    	// TODO
 		
-				if (solution != null) {
-					return solution;
-				}
+		if (solution != null) {
+			return solution;
+		}
+
+		final T initialState = searchProblem.getInitialState();
+
+		final List<T> path = new ArrayList<T>();
+		Queue<T> queue = new LinkedList<T>();
+		List<T> discoveredSet = new ArrayList<T>();
+
+		if (initialState == null){
+			return path;
+		}
 		
-				final T initialState = searchProblem.getInitialState();
-		
-				final List<T> path = new ArrayList<T>();
-				Queue<T> queue = new LinkedList<T>();
-				List<T> discoveredSet = new ArrayList<T>();
-		
-				if (initialState == null) {
+		if (searchProblem.isGoalState(initialState)){
+
+			path.add(initialState);
+			return path;
+		}
+
+		queue.add(initialState);
+	
+		while (!queue.isEmpty()) {
+
+			T currentState = queue.remove();
+			path.add(currentState);
+
+			if (searchProblem.isGoalState(currentState)) {
+				if (isValid(path)) {
+					solution = path;
 					return path;
+				} 
+				else {
+					throw new RuntimeException();
 				}
-		
-				if (searchProblem.isGoalState(initialState)) {
-					path.add(initialState);
-					return path;
+			}
+
+			discoveredSet.add(currentState);
+
+			for (T adjacent : searchProblem.getSuccessors(currentState)) {
+
+				if (!discoveredSet.contains(adjacent)) {
+					queue.add(adjacent);
 				}
+			}
+	
+			while (!queue.isEmpty() && discoveredSet.contains(queue.peek())) {
+
+				queue.remove();
+			}
+		}
 		
-				queue.add(initialState);
+		if (isValid(path)) return path;
 		
-				while (!queue.isEmpty()) {
 		
-					T currentState = queue.remove();
-		
-					if (!discoveredSet.contains(currentState)) {
-						path.add(currentState);
-					}
-		
-					if (searchProblem.isGoalState(currentState)) {
-						if (isValid(path)) {
-							solution = path;
-							return path;
-						} else {
-							throw new RuntimeException();
-						}
-					}
-		
-					discoveredSet.add(currentState);
-		
-					for (T adjacent : searchProblem.getSuccessors(currentState)) {
-		
-						if (!discoveredSet.contains(adjacent)) {
-							queue.add(adjacent);
-						}
-					}
-		
-					while (!queue.isEmpty() && discoveredSet.contains(queue.peek())) {
-		
-						queue.remove();
-					}
-				}
-		
-				return path;
+		throw new RuntimeErrorException(null);
 	}
 
 }
