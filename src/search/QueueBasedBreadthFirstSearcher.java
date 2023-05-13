@@ -22,63 +22,42 @@ public class QueueBasedBreadthFirstSearcher<T> extends Searcher<T> {
 	@Override
 	public List<T> solve() {
     	// TODO
-		
 		if (solution != null) {
 			return solution;
 		}
-
-		final T initialState = searchProblem.getInitialState();
-
+	
 		final List<T> path = new ArrayList<T>();
 		Queue<T> queue = new LinkedList<T>();
-		List<T> discoveredSet = new ArrayList<T>();
-
-		if (initialState == null){
-			return path;
-		}
-		
-		if (searchProblem.isGoalState(initialState)){
-
-			path.add(initialState);
-			return path;
-		}
-
-		queue.add(initialState);
+		List<T> visitedStates = new ArrayList<T>();
+		queue.add(searchProblem.getInitialState());
 	
 		while (!queue.isEmpty()) {
-
 			T currentState = queue.remove();
 			path.add(currentState);
-
 			if (searchProblem.isGoalState(currentState)) {
 				if (isValid(path)) {
 					solution = path;
 					return path;
-				} 
-				else {
-					throw new RuntimeException();
+				} else {
+					throw new RuntimeException("searcher should never find an invalid solution!");
 				}
 			}
-
-			discoveredSet.add(currentState);
-
-			for (T adjacent : searchProblem.getSuccessors(currentState)) {
-
-				if (!discoveredSet.contains(adjacent)) {
-					queue.add(adjacent);
+			visitedStates.add(currentState);
+	
+			List<T> neighbors = searchProblem.getSuccessors(currentState);
+			for (T neighbor : neighbors) {
+				if (!visitedStates.contains(neighbor)) {
+					queue.add(neighbor);
 				}
 			}
 	
-			while (!queue.isEmpty() && discoveredSet.contains(queue.peek())) {
-
+			while (!queue.isEmpty() && visitedStates.contains(queue.peek())) {
 				queue.remove();
+				path.remove(0);
 			}
 		}
-		
+	
 		return path;
-
-		
-		
 		
 	}
 
