@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Stack;
 import java.util.ArrayList;
 
-import javax.management.RuntimeErrorException;
 
 /**
  * An implementation of a Searcher that performs an iterative search,
@@ -55,8 +54,6 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 			}
 		}
 	
-		if (isValid(path)) return path;
-		
-		throw new RuntimeErrorException(null);
+		return path;
 	}
 }

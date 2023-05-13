@@ -5,8 +5,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-import javax.lang.model.util.ElementScanner14;
-import javax.management.RuntimeErrorException;
 
 
 /**
@@ -77,10 +75,11 @@ public class QueueBasedBreadthFirstSearcher<T> extends Searcher<T> {
 			}
 		}
 		
-		if (isValid(path)) return path;
+		return path;
+
 		
 		
-		throw new RuntimeErrorException(null);
+		
 	}
 
 }
