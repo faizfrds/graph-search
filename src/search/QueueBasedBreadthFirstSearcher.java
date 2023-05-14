@@ -63,8 +63,8 @@ public class QueueBasedBreadthFirstSearcher<T> extends Searcher<T> {
 			}
 		}
 
-		solution = path;
+		if(!isValid(path)) throw new RuntimeException();
+		
 		return path;
 	}
-
 }
