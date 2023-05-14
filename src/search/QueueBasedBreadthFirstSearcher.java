@@ -25,8 +25,6 @@ public class QueueBasedBreadthFirstSearcher<T> extends Searcher<T> {
 		if (solution != null) {
 			return solution;
 		}
-
-		if (!isValid(solution)) return solution;
 	
 		final List<T> path = new ArrayList<T>();
 		Queue<T> queue = new LinkedList<T>();

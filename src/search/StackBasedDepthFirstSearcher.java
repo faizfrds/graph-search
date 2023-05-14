@@ -23,7 +23,6 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 			return solution;
 		}
 
-		if (!isValid(solution)) return solution;
 	
 		final List<T> path = new ArrayList<T>();
 		Stack<T> stack = new Stack<T>();
