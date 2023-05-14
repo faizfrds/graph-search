@@ -62,6 +62,8 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 		
 		if(!isValid(path)) throw new RuntimeException();
 
+		if (solution.isEmpty()) return null;
+
 		return path;
 	}
 }
