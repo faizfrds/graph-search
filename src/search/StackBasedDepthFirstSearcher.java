@@ -28,32 +28,38 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 		List<T> visitedStates = new ArrayList<T>();
 		stack.push(searchProblem.getInitialState());
 	
-		while (!stack.empty()) {
+		while (!stack.empty()){
+
 			T currentState = stack.pop();
 			path.add(currentState);
-			if (searchProblem.isGoalState(currentState)) {
-				if (isValid(path)) {
+
+			if (searchProblem.isGoalState(currentState)){
+
+				if (isValid(path)){
 					solution = path;
 					return path;
-				} else {
+				} 
+				else{
 					throw new RuntimeException("searcher should never find an invalid solution!");
 				}
 			}
 			visitedStates.add(currentState);
-	
-			List<T> neighbors = searchProblem.getSuccessors(currentState);
-			for (T neighbor : neighbors) {
-				if (!visitedStates.contains(neighbor)) {
+
+			for (T neighbor : searchProblem.getSuccessors(currentState)){
+
+				if (!visitedStates.contains(neighbor)){
 					stack.push(neighbor);
 				}
 			}
 	
-			while (!stack.empty() && visitedStates.contains(stack.peek())) {
+			while (!stack.empty() && visitedStates.contains(stack.peek())){
+
 				stack.pop();
 				path.remove(path.size() - 1);
 			}
 		}
-	
+		
+		solution = path;
 		return path;
 	}
 }

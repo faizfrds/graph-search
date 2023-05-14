@@ -31,34 +31,40 @@ public class QueueBasedBreadthFirstSearcher<T> extends Searcher<T> {
 		List<T> visitedStates = new ArrayList<T>();
 		queue.add(searchProblem.getInitialState());
 	
-		while (!queue.isEmpty()) {
+		while (!queue.isEmpty()){
+
 			T currentState = queue.remove();
 			path.add(currentState);
-			if (searchProblem.isGoalState(currentState)) {
+
+			if (searchProblem.isGoalState(currentState)){
+
 				if (isValid(path)) {
 					solution = path;
 					return path;
-				} else {
+				} 
+				else{
 					throw new RuntimeException("searcher should never find an invalid solution!");
 				}
 			}
+
 			visitedStates.add(currentState);
-	
-			List<T> neighbors = searchProblem.getSuccessors(currentState);
-			for (T neighbor : neighbors) {
-				if (!visitedStates.contains(neighbor)) {
+
+			for (T neighbor : searchProblem.getSuccessors(currentState)){
+
+				if (!visitedStates.contains(neighbor)){
 					queue.add(neighbor);
 				}
 			}
 	
-			while (!queue.isEmpty() && visitedStates.contains(queue.peek())) {
+			while (!queue.isEmpty() && visitedStates.contains(queue.peek())){
+
 				queue.remove();
 				path.remove(0);
 			}
 		}
-	
+
+		solution = path;
 		return path;
-		
 	}
 
 }
