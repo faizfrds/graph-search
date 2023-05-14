@@ -34,16 +34,6 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 			T currentState = stack.pop();
 			path.add(currentState);
 
-			if (searchProblem.isGoalState(currentState)){
-
-				if (isValid(path)){
-					solution = path;
-					return path;
-				} 
-				else{
-					throw new RuntimeException("searcher should never find an invalid solution!");
-				}
-			}
 			visitedStates.add(currentState);
 
 			for (T neighbor : searchProblem.getSuccessors(currentState)){
@@ -59,10 +49,6 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 				path.remove(path.size() - 1);
 			}
 		}
-		
-		if(!isValid(path)) throw new RuntimeException();
-
-		if (solution.isEmpty()) return null;
 
 		return path;
 	}
