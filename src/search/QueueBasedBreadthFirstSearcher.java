@@ -28,7 +28,6 @@ public class QueueBasedBreadthFirstSearcher<T> extends Searcher<T> {
 			return solution;
 		}
 
-	
 		final List<T> path = new ArrayList<T>();
 		Stack<T> stack = new Stack<T>();
 		List<T> visitedStates = new ArrayList<T>();

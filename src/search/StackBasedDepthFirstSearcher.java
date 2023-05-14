@@ -22,7 +22,6 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 		if (solution != null) {
 			return solution;
 		}
-
 	
 		final List<T> path = new ArrayList<T>();
 		Stack<T> stack = new Stack<T>();
@@ -33,7 +32,18 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 
 			T currentState = stack.pop();
 			path.add(currentState);
+			System.out.println(currentState);
 
+			if (searchProblem.isGoalState(currentState)){
+
+				if (isValid(path)){
+					solution = path;
+					return path;
+				} 
+				else{
+					throw new RuntimeException("searcher should never find an invalid solution!");
+				}
+			}
 			visitedStates.add(currentState);
 
 			for (T neighbor : searchProblem.getSuccessors(currentState)){
@@ -49,7 +59,8 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 				path.remove(path.size() - 1);
 			}
 		}
-
+		
+		solution = path;
 		return path;
 	}
 }
