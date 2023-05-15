@@ -62,7 +62,7 @@ public abstract class Searcher<T> {
 		if (solution.isEmpty()) return false;
 
 		if (solution == null) {
-			throw new NullPointerException();
+			throw new NullPointerException("null");
 		}
 
 		if (solution.size() == 0) return true;

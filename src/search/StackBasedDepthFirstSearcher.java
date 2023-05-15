@@ -52,12 +52,9 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 
 				if (!visitedStates.contains(neighbor)){
 					
-					if (!states.contains(neighbor)){ //if neighbor hasnt been found before
-		
-						states.add(neighbor);
-						predecessors.add(neighbor);	
-					}
-	
+					states.add(neighbor);
+					predecessors.add(neighbor);	
+					
 					predecessors.set(states.indexOf(neighbor), currentState); //setting the predecessor for correct indexing
 					stack.push(neighbor);
 					System.out.println(neighbor);
