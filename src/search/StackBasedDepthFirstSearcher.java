@@ -32,11 +32,9 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 
 		T initial = searchProblem.getInitialState();
 
-		
 		stack.push(initial);
 		states.add(initial);
 		predecessors.add(initial);
-
 
 		T goal = null;
 		
@@ -46,6 +44,7 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 
 			if (searchProblem.isGoalState(currentState)){
 				goal = currentState;
+				break;
 			}
 
 			visitedStates.add(currentState);
