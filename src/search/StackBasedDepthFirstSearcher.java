@@ -49,20 +49,17 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 
 			visitedStates.add(currentState);
 
-			for (T neighbor : searchProblem.getSuccessors(currentState)) {
-				if (!visitedStates.contains(neighbor)) {
-	
-					// if this neighbor hasn't been seen before
-					if (!states.contains(neighbor)) {
-						// add it to the list of states
+			for (T neighbor : searchProblem.getSuccessors(currentState)){
+
+				if (!visitedStates.contains(neighbor)){
+					
+					if (!states.contains(neighbor)){ //if neighbor hasnt been found before
+		
 						states.add(neighbor);
-						// and set its predecessor to itself
-						predecessors.add(neighbor);
-						
+						predecessors.add(neighbor);	
 					}
 	
-					// now set the neighbor's predecessor correctly
-					predecessors.set(states.indexOf(neighbor), currentState);
+					predecessors.set(states.indexOf(neighbor), currentState); //setting the predecessor for correct indexing
 					stack.push(neighbor);
 					System.out.println(neighbor);
 				}
@@ -70,29 +67,24 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 
 		}
 
-		// if a goal was found
 		if (goal != null) {
-			// build a path by looking up each predecessor, starting from
-			// the goal state
-			path.add(goal);
-			while (!goal.equals(searchProblem.getInitialState())) {
+
+			path.add(goal); //building path from goal-to-initial
+			while (!goal.equals(searchProblem.getInitialState())){
+
 				final T predecessor = predecessors.get(states.indexOf(goal));
 				path.add(predecessor);
 				goal = predecessor;
 			}
-
-			// the path is in reverse order (goal-to-initial), so we reverse
-			// it into the correct order
-			Collections.reverse(path);
+			Collections.reverse(path); //reversing path from goal-to-initial to initial-to-goal
 		}
-		if (path.size() > 0) {
-			if (!isValid(path)) {
-				throw new RuntimeException(
-						"searcher should never find an invalid solution!");
+
+		if (path.size() > 0){
+			if (!isValid(path)){
+				throw new RuntimeException("searcher should never find an invalid solution!");
 			}
 		}
-		return path;
-	
-	}
 
+		return path;
+	}
 }
