@@ -32,10 +32,10 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 
 		while (!stack.empty()){
 			T current = stack.pop(); 
+			
 
 			if (searchProblem.isGoalState(current)){
 
-				System.out.println("goals" + current);
 				if (isValid(path)){
 					solution = path;
 					return path;
@@ -51,11 +51,10 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 				if (!visitedSet.contains(adjV)){
 					stack.push(adjV);
 					visitedSet.add(adjV);
-					path.add(adjV);
-					System.out.println(adjV);
 				}
 			}
-
+			
+	
 		}
 		
 		solution = path;
