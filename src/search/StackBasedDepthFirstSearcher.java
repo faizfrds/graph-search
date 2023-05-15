@@ -65,49 +65,6 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 			}
 		}
 		return path;
-
-		/*
-		 * while (!stack.empty()){
-		 * T current = stack.pop();
-		 * 
-		 * 
-		 * if (searchProblem.isGoalState(current)){
-		 * 
-		 * goal = current;
-		 * if (isValid(visitedSet)){
-		 * solution = path;
-		 * return path;
-		 * }
-		 * else{
-		 * throw new RuntimeException();
-		 * }
-		 * }
-		 * 
-		 * 
-		 * if (!visitedSet.contains(current)){
-		 * 
-		 * visitedSet.add(current);
-		 * }
-		 * 
-		 * 
-		 * for (T adjV : searchProblem.getSuccessors(current)){
-		 * 
-		 * if (!visitedSet.contains(adjV)){
-		 * stack.push(adjV);
-		 * path.add(adjV);
-		 * System.out.println(adjV);
-		 * }
-		 * }
-		 * 
-		 * 
-		 * while (!stack.empty() && visitedSet.contains(stack.peek())){
-		 * 
-		 * stack.pop();
-		 * path.remove(path.size()-1);
-		 * }
-		 * 
-		 * }
-		 */
 	}
 
 	private T iterativeDFSWithExplicitPredecessors(T initialState) {
@@ -128,6 +85,7 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 			}
 	
 			visited.add(state);
+			
 			boolean unvisitedNeighborFound = false;
 			for (T neighbor : searchProblem.getSuccessors(state)) {
 				if (!visited.contains(neighbor)) {
