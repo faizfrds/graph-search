@@ -53,19 +53,14 @@ public class QueueBasedBreadthFirstSearcher<T> extends Searcher<T> {
 
 			visitedStates.add(currentState);
 
-			for (T neighbor : searchProblem.getSuccessors(currentState)){
+			for (T adjacentIndex : searchProblem.getSuccessors(currentState)){
 
-				if (!visitedStates.contains(neighbor)){
+				if (!visitedStates.contains(adjacentIndex)){
 					
-					if (!states.contains(neighbor)){ //if neighbor hasnt been found before
-		
-						states.add(neighbor);
-						predecessors.add(neighbor);	
-					}
-	
-					predecessors.set(states.indexOf(neighbor), currentState); //setting the predecessor for correct indexing
-					queue.add(neighbor);
-					System.out.println(neighbor);
+					states.add(adjacentIndex);
+					predecessors.add(adjacentIndex);	
+					predecessors.set(states.indexOf(adjacentIndex), currentState); //setting the predecessor for correct indexing
+					queue.add(adjacentIndex);
 				}
 			}
 

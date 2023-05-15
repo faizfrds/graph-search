@@ -48,16 +48,14 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 
 			visitedStates.add(currentState);
 
-			for (T neighbor : searchProblem.getSuccessors(currentState)){
+			for (T adjacentIndex : searchProblem.getSuccessors(currentState)){
 
-				if (!visitedStates.contains(neighbor)){
+				if (!visitedStates.contains(adjacentIndex)){
 					
-					states.add(neighbor);
-					predecessors.add(neighbor);	
-					
-					predecessors.set(states.indexOf(neighbor), currentState); //setting the predecessor for correct indexing
-					stack.push(neighbor);
-					System.out.println(neighbor);
+					states.add(adjacentIndex);
+					predecessors.add(adjacentIndex);	
+					predecessors.set(states.indexOf(adjacentIndex), currentState); //setting the predecessor for correct indexing
+					stack.push(adjacentIndex);
 				}
 			}
 
