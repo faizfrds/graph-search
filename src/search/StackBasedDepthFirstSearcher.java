@@ -18,86 +18,68 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 		super(searchProblem);
 	}
 
-	List<T> predecessors = new ArrayList<T>();
-	List<T> states = new ArrayList<T>();
-
 	@Override
 	public List<T> solve() {
 		if (solution != null) {
 			return solution;
 		}
 
-		final List<T> path = new ArrayList<T>();
+		List<T> predecessors = new ArrayList<T>();
+		List<T> states = new ArrayList<T>();
 		Stack<T> stack = new Stack<T>();
 		List<T> visitedStates = new ArrayList<T>();
+		final List<T> path = new ArrayList<T>();
 
-		if (searchProblem.isGoalState(searchProblem.getInitialState())) return null;
+		T initial = searchProblem.getInitialState();
 
-		stack.push(searchProblem.getInitialState());
+		
+		stack.push(initial);
+		states.add(initial);
+		predecessors.add(initial);
+
+
+		T goal = null;
 		
 		while (!stack.empty()){
 
 			T currentState = stack.pop();
-			path.add(currentState);
 
 			if (searchProblem.isGoalState(currentState)){
-
-				if (isValid(path)){
-					solution = path;
-					return path;
-				} 
-				else{
-					throw new RuntimeException("searcher should never find an invalid solution!");
-				}
+				goal = currentState;
 			}
+
 			visitedStates.add(currentState);
 
-			for (T neighbor : searchProblem.getSuccessors(currentState)){
-
-				if (!visitedStates.contains(neighbor)){
-					stack.push(neighbor);
-				}
-			}
+			for (T neighbor : searchProblem.getSuccessors(currentState)) {
+				if (!visitedStates.contains(neighbor)) {
 	
-			while (!stack.empty() && visitedStates.contains(stack.peek())){
-
-				stack.pop();
-				path.remove(path.size() - 1);
+					// if this neighbor hasn't been seen before
+					if (!states.contains(neighbor)) {
+						// add it to the list of states
+						states.add(neighbor);
+						// and set its predecessor to itself
+						predecessors.add(neighbor);
+						
+					}
+	
+					// now set the neighbor's predecessor correctly
+					predecessors.set(states.indexOf(neighbor), currentState);
+					stack.push(neighbor);
+					System.out.println(neighbor);
+				}
 			}
 
 		}
-		
-		if(!isValid(path)) throw new RuntimeException();
 
-		if (solution.isEmpty()) return null;
-
-		return path;
-
-		/*final List<T> path = new ArrayList<T>();
-		Stack<T> stack = new Stack<T>();
-		List<T> visitedSet = new ArrayList<T>();
-		
-
-		T initial = searchProblem.getInitialState();
-		T curr = initial;
-
-		if (searchProblem.isGoalState(searchProblem.getInitialState()))
-			return null;
-
-		stack.push(searchProblem.getInitialState());
-
-		T current = iterativeDFSWithExplicitPredecessors(initial);
-		System.out.println(current);
-
-		if (current != null) {
+		// if a goal was found
+		if (goal != null) {
 			// build a path by looking up each predecessor, starting from
-			// the current state
-			path.add(current);
-			while (!current.equals(initial)) {
-				final T predecessor = predecessors.get(states.indexOf(current));
+			// the goal state
+			path.add(goal);
+			while (!goal.equals(searchProblem.getInitialState())) {
+				final T predecessor = predecessors.get(states.indexOf(goal));
 				path.add(predecessor);
-				current = predecessor;
-				System.out.println(predecessor);
+				goal = predecessor;
 			}
 
 			// the path is in reverse order (goal-to-initial), so we reverse
@@ -110,50 +92,8 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 						"searcher should never find an invalid solution!");
 			}
 		}
-		return path;*/
-	}
-
-	private T iterativeDFSWithExplicitPredecessors(T initialState) {
-
-		Stack<T> stack = new Stack<>();
-		List<T> visited = new ArrayList<T>();
-
-		stack.push(initialState);
-
-		stack.push(initialState);
-		predecessors.add(initialState);
+		return path;
 	
-		while (!stack.isEmpty()) {
-			T state = stack.pop();
-	
-			if (searchProblem.isGoalState(state)) {
-				return state;
-			}
-	
-			visited.add(state);
-
-			boolean unvisitedNeighborFound = false;
-			for (T neighbor : searchProblem.getSuccessors(state)) {
-				if (!visited.contains(neighbor)) {
-					unvisitedNeighborFound = true;
-	
-					if (!states.contains(neighbor)) {
-						states.add(neighbor);
-						predecessors.add(neighbor);
-					}
-	
-					stack.push(neighbor);
-				}
-			}
-	
-			if (!unvisitedNeighborFound) {
-				visited.remove(state);
-				states.remove(state);
-				predecessors.remove(state);
-			}
-		}
-	
-		return null;
 	}
 
 }
