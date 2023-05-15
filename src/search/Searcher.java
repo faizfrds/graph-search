@@ -60,7 +60,7 @@ public abstract class Searcher<T> {
 		// TODO
 
 		if (solution == null) {
-			throw new NullPointerException();
+			return false;
 		}
 
 		T initialState = searchProblem.getInitialState();
