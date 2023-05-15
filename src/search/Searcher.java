@@ -60,8 +60,10 @@ public abstract class Searcher<T> {
 		// TODO
 
 		if (solution == null) {
-			return false;
+			throw new NullPointerException();
 		}
+
+		if (solution.size() == 0) return true;
 
 		T initialState = searchProblem.getInitialState();
 		if (!solution.get(0).equals(initialState)) {
