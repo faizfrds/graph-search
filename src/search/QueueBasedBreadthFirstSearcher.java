@@ -31,8 +31,11 @@ public class QueueBasedBreadthFirstSearcher<T> extends Searcher<T> {
 		final List<T> path = new ArrayList<T>();
 		Stack<T> stack = new Stack<T>();
 		List<T> visitedStates = new ArrayList<T>();
+
+		if (searchProblem.isGoalState(searchProblem.getInitialState())) return path;
+
 		stack.push(searchProblem.getInitialState());
-	
+		
 		while (!stack.empty()){
 
 			T currentState = stack.pop();
