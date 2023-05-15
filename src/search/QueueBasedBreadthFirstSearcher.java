@@ -32,7 +32,7 @@ public class QueueBasedBreadthFirstSearcher<T> extends Searcher<T> {
 		Stack<T> stack = new Stack<T>();
 		List<T> visitedStates = new ArrayList<T>();
 
-		if (searchProblem.isGoalState(searchProblem.getInitialState())) return path;
+		if (searchProblem.isGoalState(searchProblem.getInitialState())) return null;
 
 		stack.push(searchProblem.getInitialState());
 		

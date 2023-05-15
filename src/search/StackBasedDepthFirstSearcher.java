@@ -27,10 +27,9 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 		Stack<T> stack = new Stack<T>();
 		List<T> visitedSet = new ArrayList<T>();
 		
-		if (searchProblem.isGoalState(searchProblem.getInitialState())) return path;
+		if (searchProblem.isGoalState(searchProblem.getInitialState())) return null;
 
 		stack.push(searchProblem.getInitialState());
-
 
 		while (!stack.empty()){
 			T current = stack.pop(); 
