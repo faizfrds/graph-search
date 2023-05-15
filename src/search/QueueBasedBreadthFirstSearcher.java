@@ -65,6 +65,7 @@ public class QueueBasedBreadthFirstSearcher<T> extends Searcher<T> {
 				stack.pop();
 				path.remove(path.size() - 1);
 			}
+
 		}
 		
 		if(!isValid(path)) throw new RuntimeException();

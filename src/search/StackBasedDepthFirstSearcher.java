@@ -3,6 +3,7 @@ package search;
 import java.util.List;
 import java.util.Stack;
 import java.util.ArrayList;
+import java.util.Currency;
 
 
 /**
@@ -26,18 +27,23 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 		final List<T> path = new ArrayList<T>();
 		Stack<T> stack = new Stack<T>();
 		List<T> visitedSet = new ArrayList<T>();
+		T goal = null;
+		T initial = searchProblem.getInitialState();
+		T curr = initial;
 		
 		if (searchProblem.isGoalState(searchProblem.getInitialState())) return null;
 
 		stack.push(searchProblem.getInitialState());
 
-		while (!stack.empty()){
+
+		/*while (!stack.empty()){
 			T current = stack.pop(); 
-			path.add(current);
+
 
 			if (searchProblem.isGoalState(current)){
-
-				if (isValid(path)){
+				
+				goal = current;
+				if (isValid(visitedSet)){
 					solution = path;
 					return path;
 				} 
@@ -46,23 +52,75 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 				}
 			}
 
-			visitedSet.add(current);
+
+			if (!visitedSet.contains(current)){
+
+				visitedSet.add(current);
+			}
+
 
 			for (T adjV : searchProblem.getSuccessors(current)){
 
 				if (!visitedSet.contains(adjV)){
 					stack.push(adjV);
+					path.add(adjV);
+					System.out.println(adjV);
 				}
 			}
 	
+			
 			while (!stack.empty() && visitedSet.contains(stack.peek())){
 
 				stack.pop();
 				path.remove(path.size()-1);
 			}
-		}
+			
+		}*/
+
+		
+		
+
 		
 		solution = path;
 		return path;
 	}
+	
+	private T iterativeDFSWithExplicitPredecessors(T initialState) {
+		Stack<T> stack = new Stack<>();
+		List<T> visited = new ArrayList<T>();
+	
+		stack.push(initialState);
+	
+		while (!stack.isEmpty()) {
+			T state = stack.pop();
+	
+			if (searchProblem.isGoalState(state)) {
+				return state;
+			}
+	
+			visited.add(state);
+			boolean unvisitedNeighborFound = false;
+
+			for (T neighbor : searchProblem.getSuccessors(state)) {
+				if (!visited.contains(neighbor)) {
+					unvisitedNeighborFound = true;
+	
+					if (!visitedStates.contains(neighbor)) {
+						visitedStates.add(neighbor);
+					}
+	
+					stack.push(neighbor);
+				}
+			}
+	
+			if (!unvisitedNeighborFound) {
+				visited.remove(state);
+				//states.remove(state);
+				//predecessors.remove(state);
+			}
+		}
+	
+		return null;
+	}
+	
 }

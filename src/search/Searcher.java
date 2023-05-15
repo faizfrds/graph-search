@@ -59,6 +59,8 @@ public abstract class Searcher<T> {
 	public final boolean isValid(List<T> solution) {
 		// TODO
 
+		if (solution.isEmpty()) return false;
+
 		if (solution == null) {
 			throw new NullPointerException();
 		}
