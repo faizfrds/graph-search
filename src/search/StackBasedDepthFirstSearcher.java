@@ -29,6 +29,52 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 
 		final List<T> path = new ArrayList<T>();
 		Stack<T> stack = new Stack<T>();
+		List<T> visitedStates = new ArrayList<T>();
+
+		if (searchProblem.isGoalState(searchProblem.getInitialState())) return null;
+
+		stack.push(searchProblem.getInitialState());
+		
+		while (!stack.empty()){
+
+			T currentState = stack.pop();
+			path.add(currentState);
+
+			if (searchProblem.isGoalState(currentState)){
+
+				if (isValid(path)){
+					solution = path;
+					return path;
+				} 
+				else{
+					throw new RuntimeException("searcher should never find an invalid solution!");
+				}
+			}
+			visitedStates.add(currentState);
+
+			for (T neighbor : searchProblem.getSuccessors(currentState)){
+
+				if (!visitedStates.contains(neighbor)){
+					stack.push(neighbor);
+				}
+			}
+	
+			while (!stack.empty() && visitedStates.contains(stack.peek())){
+
+				stack.pop();
+				path.remove(path.size() - 1);
+			}
+
+		}
+		
+		if(!isValid(path)) throw new RuntimeException();
+
+		if (solution.isEmpty()) return null;
+
+		return path;
+
+		/*final List<T> path = new ArrayList<T>();
+		Stack<T> stack = new Stack<T>();
 		List<T> visitedSet = new ArrayList<T>();
 		
 
@@ -64,7 +110,7 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 						"searcher should never find an invalid solution!");
 			}
 		}
-		return path;
+		return path;*/
 	}
 
 	private T iterativeDFSWithExplicitPredecessors(T initialState) {
@@ -85,7 +131,7 @@ public class StackBasedDepthFirstSearcher<T> extends Searcher<T> {
 			}
 	
 			visited.add(state);
-			
+
 			boolean unvisitedNeighborFound = false;
 			for (T neighbor : searchProblem.getSuccessors(state)) {
 				if (!visited.contains(neighbor)) {
